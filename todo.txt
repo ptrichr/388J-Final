@@ -1,0 +1,7 @@
+what do we need?:
+1. we need an api call to get the wmata timetable
+2. we need an api call to get closest metro station from google maps
+3. need a structure for itinerary point objects
+    - itinerary will start with a start and end time
+    - in the form, you'll add a POI to your itinerary, and the time you want to spend there, then after all POIS added,backend should get the timetable and cross reference the location and time spend with the google maps api and the wmata api to first find the closest metro stop, and then the metro train arrival corresponding to the time you want to spend. store the location, metro station, departure times in a dictionary (?)
+4. mongo stuff to store users and data associated with itinerary points
