@@ -24,8 +24,8 @@ bcrypt = Bcrypt()
 # TODO initialize wmata client
 
 # blueprints
-from routes_users.routes import users
-from routes_routes.routes import routes
+from user.routes import users
+from trip.routes import trips
 
 def create_app(test_config=None):
     app = Flask(__name__)

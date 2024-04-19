@@ -1,4 +1,5 @@
 /venv/
 /.env
-/testing.py
-/dump.zip
+/testing/
+/flask_app/dump/*
+/flask_app/rail_gtfs_static/*
