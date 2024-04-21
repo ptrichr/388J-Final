@@ -8,6 +8,30 @@ what do we need?:
 
 
 
+scrapped:
 Some stuff:
+
+this stuff is really difficult, we are going to make it so that it's restricted to starting in college park
+
 query google text api for metro station, to get name, parse return like so:
 places["displayname"]
+
+How to make a metro route:
+
+example: l'enfant to gallery place (green line to greenbelt, md)
+
+first parse for stops that have the name (look for PFs, there are no STNs):
+ex: if i want l'enfant to college park, parse stops.txt for l'enfant, and college park stops
+
+L'enfant:
+PF_F03_2,"L'ENFANT PLAZA, GREEN/YELLOW LINE TRACK 2 PLATFORM",Green/Yellow Line to Greenbelt/Fort Totten,38.88511874010,-77.02199430990,10,0,STN_D03_F03,1,D03_F03_L1
+
+PF_F03_1,"L'ENFANT PLAZA, GREEN/YELLOW LINE TRACK 1 PLATFORM",Green/Yellow Line to Branch Ave/Huntington,38.88511895000,-77.02182773030,10,0,STN_D03_F03,1,D03_F03_L1
+
+PF_D03_C,"L'ENFANT PLAZA, BLUE/ORANGE/SILVER LINE CENTER PLATFORM",Blue/Orange/Silver Line to Downtown Largo/New Carrollton | to Franconia-Springfield/Vienna/Wiehle-Reston East,38.88484,-77.02208621,10,0,STN_D03_F03,1,D03_F03_L2
+
+College park:
+PF_E09_C,"COLLEGE PARK-U OF MD, GREEN/YELLOW LINE CENTER PLATFORM",Green Line to Greenbelt | to Branch Ave,38.97829539,-76.92833781,8,0,STN_E09,1,E09_L2
+
+
+thinking here: maybe use pandas, since these seem to be CSVs

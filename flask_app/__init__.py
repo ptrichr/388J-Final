@@ -24,8 +24,8 @@ bcrypt = Bcrypt()
 # TODO initialize wmata client
 
 # blueprints
-from user.routes import users
-from trip.routes import trips
+from users.routes import users
+from trips.routes import trips
 
 def create_app(test_config=None):
     app = Flask(__name__)
@@ -39,8 +39,9 @@ def create_app(test_config=None):
     
     # init blueprints
     app.register_blueprint(users, url_prefix='/users')
-    app.register_blueprint(routes, url_prefix='/routes')
+    app.register_blueprint(trips, url_prefix='/routes')
     
-    # TODO login_manager.login_view = "users.login"
+    login_manager.login_view = "users.login"
+    # maybe make a 404
     
     return app
