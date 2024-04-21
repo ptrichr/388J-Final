@@ -11,7 +11,7 @@ from models import User
 
 users = Blueprint("users", __name__)
 
-@users.route("/register", methods=["GET", "POST"])
+@users.route('/register', methods=["GET", "POST"])
 def register():
     # if user is already logged in, send to home page
     if current_user.is_authenticated:
@@ -33,7 +33,7 @@ def register():
     # otherwise re-render page
     return render_template('register.html', title="Register", form=form)
 
-@users.route("/login", methods=["GET", "POST"])
+@users.route('/login', methods=["GET", "POST"])
 def login():
     # if user is already logged in, send to home page
     if current_user.is_authenticated:
@@ -52,13 +52,13 @@ def login():
     
     return render_template('login.html', title="Login", form=form)
 
-@users.route("/logout")
+@users.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('movies.index'))
 
-@users.route("/account", methods=["GET", "POST"])
+@users.route('/account', methods=["GET", "POST"])
 @login_required
 def account():
     update_username_form = UpdateUsernameForm()

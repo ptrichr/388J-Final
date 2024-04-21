@@ -32,6 +32,5 @@ def index():
         # otherwise make them login
         return redirect(url_for('users.login'))
         
-    
     render_template('index.html', form=form)
     

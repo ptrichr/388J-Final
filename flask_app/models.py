@@ -24,5 +24,5 @@ class Trip(db.Document):
     start_time = db.StringField(required=True)
     end_time = db.StringField(required=True)
     pois = db.ListField(db.StringField(), required=True)
-    # routes = idk what this should be
+    # TODO routes = db.ListField()
     
