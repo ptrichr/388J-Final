@@ -21,8 +21,9 @@ class User(db.Document, UserMixin):
         return self.username
     
 class Trip(db.Document):
+    # maybe add like a time spent field as a visual? idk
+    title = db.StringField(required=True)
     start_time = db.StringField(required=True)
-    end_time = db.StringField(required=True)
-    pois = db.ListField(db.StringField(), required=True)
-    # TODO routes = db.ListField()
+    pois = db.ListField(db.DictField(), required=True)
+    routes = db.ListField(db.DictField(), required=True)
     

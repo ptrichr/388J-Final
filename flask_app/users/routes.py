@@ -8,6 +8,8 @@ from models import User
 
 # TODO
 # user route stuff (look at p4)
+# 1. need user detail route similar to p4, cept the reviews r replaced by trips
+#   i. there should be a button to allow users to retroactively edit trips
 
 users = Blueprint("users", __name__)
 
@@ -15,7 +17,7 @@ users = Blueprint("users", __name__)
 def register():
     # if user is already logged in, send to home page
     if current_user.is_authenticated:
-        return redirect(url_for('movies.index'))
+        return redirect(url_for('trips.index'))
     
     form = RegistrationForm()
     
@@ -37,7 +39,7 @@ def register():
 def login():
     # if user is already logged in, send to home page
     if current_user.is_authenticated:
-        return redirect(url_for('movies.index'))
+        return redirect(url_for('trips.index'))
     
     form = LoginForm()
     
@@ -56,7 +58,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('movies.index'))
+    return redirect(url_for('trips.index'))
 
 @users.route('/account', methods=["GET", "POST"])
 @login_required

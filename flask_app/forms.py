@@ -6,24 +6,21 @@ from wtforms.validators import InputRequired, Length, EqualTo, ValidationError
 from models import User
 
 # naming the trip duh
-class NameForm(FlaskForm):
-    name = StringField(
-        "Trip Name", validators=[InputRequired(), Length(min=1, max=50)]
-        )
-    submit = SubmitField("Let's Go!")
-
-# for selecting itinerary start time
 # the time form from WTForms components returns a time in datetime.time standard:
 # time(<hour>,<minute>,<second>,<microsecond>,...)
 # the individual components can be accessed with . operator
-class TimeForm(FlaskForm):
+class StartForm(FlaskForm):
+    title = StringField(
+        "Trip Name", validators=[InputRequired(), Length(min=1, max=50)]
+        )
     start_time = TimeField("Start Time", validators=[InputRequired()])
-    end_time = TimeField("End Time", validators=[InputRequired()])
-    submit = SubmitField("Enter")
+    submit = SubmitField("Let's Go!")
 
 # for creating routes/adding points of interest
 class POIForm(FlaskForm):
-    poi = StringField("Enter a Point of Interest", validators=[Length(max=50)])
+    poi = StringField("Enter a Point of Interest", validators=[InputRequired(), Length(max=50)])
+    arrive = TimeField("Arrival Time", validators=[InputRequired()])
+    depart = TimeField("Departure Time", validators=[InputRequired()])
     submit = SubmitField("Add to Trip")
 
 # do we need email?
