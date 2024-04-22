@@ -1,4 +1,4 @@
-# CMSC388J Final Project: A Day in DC
+# CMSC388J Final Project: UMD(c)
 
 Nathan Ho, Spring 2024
 
