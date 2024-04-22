@@ -4,6 +4,16 @@ Nathan Ho, Spring 2024
 
 ## Getting Started
 
+Clone the repository:
+```console
+$ git clone <>
+```
+
+Or, if you are a contributor, pull the most recent update:
+```console
+$ git pull origin master
+```
+
 Install the required dependencies:
 ```console
 $ pip3 install -r requirements.txt
