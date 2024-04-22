@@ -1,4 +1,4 @@
-# CMSC388J Final Project: UMD(C)
+# [CMSC388J](https://aspear.cs.umd.edu/388j) Final Project: UMD(C)
 
 A simple transit itinerary for DC trips. Nathan Ho, Spring 2024
 
