@@ -28,16 +28,15 @@ A simple transit itinerary for DC trips. Nathan Ho, Spring 2024
 $ pip3 install -r requirements.txt
 ```
 
-#### Create .env file:
+#### Configure the environment:
+> Create a .env file
+> ```console
+> $ touch .env
+> ```
 
-```console
-$ touch .env
-```
-
-#### Format .env file:
-
-```java
-export SECRET_KEY = <replace with your csrf key>
-export MONGODB_HOST = <replace with your mongo uri>
-export GOOG_API_KEY = <repalce with your API key>
-```
+> Format .env file
+> ```bash
+> export SECRET_KEY = <replace with your csrf key>
+> export MONGODB_HOST = <replace with your mongo uri>
+> export GOOG_API_KEY = <replace with your API key>
+> ```
