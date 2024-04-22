@@ -5,6 +5,12 @@ Nathan Ho, Spring 2024
 ## Getting Started
 
 Clone the repository:
+> via URL
+```console
+$ git clone https://github.com/ptrichr/388J-Final.git
+```
+
+> via SSH
 ```console
 $ git clone <>
 ```
