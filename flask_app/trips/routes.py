@@ -17,6 +17,7 @@ from ..models import Trip, User
 #   iii. it should also render in a small box below the name of the POI the metro that should be taken to reach that
 #        location (so the metro route from A to B)
 #   iv. there should be a button on the bottom of the page that says finish and just redirects to the account page
+#       ^^ this can probably be html thing, since trip is saved after each poi added
 
 trips = Blueprint("trips", __name__)
 
@@ -31,8 +32,8 @@ def index():
             time = form.start_time.data
             trip = Trip(title=form.title.data,
                         start_time=datetime.datetime(time.year, time.month, time.day, time.hour, time.minute),
-                        pois={},
-                        routes={})
+                        pois=[],
+                        routes=[])
             trip.save()
             
             # redirect to planning route

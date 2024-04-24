@@ -1,6 +1,10 @@
 Todo list:
 
+Backend:
 finish route computation in trips routes
 make templates
 add user detail route that displays trips (like reviews)
 maybe add a search for user function (add-on)
+
+Frontend:
+use a components library (idk how to do that)
