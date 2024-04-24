@@ -3,6 +3,8 @@ from flask import Flask
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
+import dateutil
+import dotenv
 
 # stdlib dependencies
 import os
@@ -10,10 +12,12 @@ import os
 # local dependencies
 from client import api
 
+dotenv.load_dotenv()
+
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
-client = api(os.environ.get('GOOG_API_KEY'))
+client = api(os.getenv('GOOG_API_KEY'))
 
 # blueprints
 from users.routes import users

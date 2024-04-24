@@ -1,4 +1,7 @@
 import os
+import dotenv
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
-MONGODB_HOST = os.environ.get('MONGODB_HOST')
+dotenv.load_dotenv()
+
+SECRET_KEY = os.getenv('SECRET_KEY')
+MONGODB_HOST = os.getenv('MONGODB_HOST')

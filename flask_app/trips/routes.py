@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, url_for, request, redirect
 from flask_login import login_required, current_user
-from googlemaps import places
-from collections import OrderedDict
+import datetime
+import dateutil
 
 # other imports
 from ..forms import StartForm, POIForm
@@ -29,9 +29,8 @@ def index():
             # create trip with that name in mongodb
             # go to trip route
             time = form.start_time.data
-            timestr = f'{time.hour}:{time.minute}'
             trip = Trip(title=form.title.data,
-                        start_time=timestr,
+                        start_time=datetime.datetime(time.year, time.month, time.day, time.hour, time.minute),
                         pois={},
                         routes={})
             trip.save()
@@ -52,9 +51,10 @@ def plan_trip(trip_title):
     form = POIForm()
     pois = list(trip.pois)
     
-    if form.validate_on_submit:
+    if form.validate_on_submit():
         arrive = form.arrive.data
         depart = form.depart.data
+        
         new_pois = pois.append(
             {
                 "poi": form.poi.data,

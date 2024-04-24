@@ -1,10 +1,10 @@
 import requests
 import googlemaps
 import json
+import dateutil
+import datetime
 import os
-
-class POI(object):
-    pass
+from dotenv import load_dotenv
     
 class api(object):
     def __init__(self, api_key):
@@ -33,7 +33,7 @@ class api(object):
     queries a route from the google routes api between point start and point end,
     if an error occurs, prints the code and message associated with the error type
     """
-    def compute_route(self, start, end):
+    def compute_route(self, start, end, departure_t):
         routes_url = "https://routes.googleapis.com/directions/v2:computeRoutes"
         
         # get addresses of start and end
@@ -47,6 +47,7 @@ class api(object):
             'X-Goog-FieldMask': 'routes.legs.steps.transitDetails'
         }
         
+        # extra parameters for query
         data = {
             "origin" : {
                 "address": origin_addr
@@ -55,7 +56,7 @@ class api(object):
                 "address": dest_addr
             },
             'travelMode': "TRANSIT",
-            # TODO 'departureTime': '' compute time from user input time spent at each loation
+            'departureTime': departure_t,
             'transitPreferences': {
                 'allowedTravelModes': ["SUBWAY", "TRAIN"]
             }
@@ -67,6 +68,18 @@ class api(object):
         if "error" in response:
             code = response["error"]["code"]
             msg = response["error"]["message"]
-            return f'Code:{code}, Error Message: {msg}'
+            return f'Code:{code}, Error Message:{msg}'
         
-        print(response)
+        return response
+
+# testing
+
+# load_dotenv()
+# time = datetime.datetime.today()
+# zulu_timestr = f'{time.year}-{time.month}-{time.day}T{time.hour}:{time.minute}:00Z'
+# client = api(os.getenv('GOOG_API_KEY'))
+# # takes time as HH:MM
+# resp = client.compute_route("L'enfant Plaza",
+#                      "University Of Maryland",
+#                      zulu_timestr)
+# print(resp)
