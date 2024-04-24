@@ -6,9 +6,6 @@ from wtforms.validators import InputRequired, Length, EqualTo, ValidationError
 from models import User
 
 # naming the trip duh
-# the time form from WTForms components returns a time in datetime.time standard:
-# time(<hour>,<minute>,<second>,<microsecond>,...)
-# the individual components can be accessed with . operator
 class StartForm(FlaskForm):
     title = StringField(
         "Trip Name", validators=[InputRequired(), Length(min=1, max=50)]
@@ -17,6 +14,10 @@ class StartForm(FlaskForm):
     submit = SubmitField("Let's Go!")
 
 # for creating routes/adding points of interest
+# the time form from WTForms components returns a time in datetime.time standard:
+# time(<hour>,<minute>,<second>,<microsecond>,...)
+# the individual components can be accessed with . operator
+# maybe make a validator that prevents doubling up on a point of interest
 class POIForm(FlaskForm):
     poi = StringField("Enter a Point of Interest", validators=[InputRequired(), Length(max=50)])
     arrive = TimeField("Arrival Time", validators=[InputRequired()])

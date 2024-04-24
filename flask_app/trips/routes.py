@@ -47,8 +47,8 @@ def index():
 @trips.route('/plan/<trip_title>')
 @login_required
 def plan_trip(trip_title):
-    trip = Trip.objects(title=trip_title).first()
     form = POIForm()
+    trip = list(Trip.objects(title=trip_title))[-1]
     pois = list(trip.pois)
     
     if form.validate_on_submit():
@@ -66,9 +66,7 @@ def plan_trip(trip_title):
         
         # TODO add route computation between prev location and new added location
         
+        # refresh page
+        return redirect(url_for('trips.plan_trip', trip_title))
+        
     return render_template('trip_planning.html', form=form, pois=pois)
-        
-        
-    
-        
-    

@@ -4,7 +4,7 @@ from .. import bcrypt
 
 # other imports
 from forms import RegistrationForm, LoginForm, UpdateUsernameForm
-from models import User
+from models import User, Trip
 
 # TODO
 # user route stuff (look at p4)
@@ -60,10 +60,13 @@ def logout():
     logout_user()
     return redirect(url_for('trips.index'))
 
-@users.route('/account', methods=["GET", "POST"])
+# now displays trips as well
+# idk if this url actually works
+@users.route('/account/<current_user.username>', methods=["GET", "POST"])
 @login_required
 def account():
     update_username_form = UpdateUsernameForm()
+    trips = list(Trip.objects())
     
     if request.method == "POST":        
         if update_username_form.submit_username.data and update_username_form.validate():
@@ -73,5 +76,4 @@ def account():
         if not update_username_form.errors:
             return redirect(url_for('users.account'))  # redirect to reflect changes
         
-         # render the page with any image updates, or the old image
-    return render_template('account.html', update_username_form=update_username_form)
+    return render_template('account.html', update_username_form=update_username_form, trips=trips)
