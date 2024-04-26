@@ -63,7 +63,7 @@ def logout():
 
 # now displays trips as well
 # idk if this url actually works
-@users.route('/account/<current_user.username>', methods=["GET", "POST"])
+@users.route('/account', methods=["GET", "POST"])
 @login_required
 def account():
     update_username_form = UpdateUsernameForm()

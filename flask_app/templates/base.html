@@ -6,15 +6,8 @@
       rel="stylesheet"
       href="{{url_for('static',filename='custom.css')}}"
     />
-    {% if title %}
-        <title>{{ title }}</title>
-    {% else %}
-        <title>Movie Reviews</title>
-    {% endif %}
 </head>
 <body>
-    {% block header %}
-    <h1>Overrideable Content</h1>
-    {% endblock %}
+    {% block content %}{% endblock %}
 </body>
 </html>

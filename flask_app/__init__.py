@@ -20,8 +20,8 @@ bcrypt = Bcrypt()
 client = api(os.getenv('GOOG_API_KEY'))
 
 # blueprints
-from users.routes import users
-from trips.routes import trips
+from .users.routes import users
+from .trips.routes import trips
 
 def create_app(test_config=None):
     app = Flask(__name__)
@@ -35,8 +35,8 @@ def create_app(test_config=None):
     bcrypt.init_app(app)
     
     # init blueprints
-    app.register_blueprint(users, url_prefix='/users')
-    app.register_blueprint(trips, url_prefix='/trips')
+    app.register_blueprint(users)
+    app.register_blueprint(trips)
     # TODO app.register_error_handler()
     
     login_manager.login_view = 'users.login'
