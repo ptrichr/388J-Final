@@ -3,8 +3,8 @@ from flask import Flask
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
+from dotenv import load_dotenv
 import dateutil
-import dotenv
 
 # stdlib dependencies
 import os
@@ -12,7 +12,7 @@ import os
 # local dependencies
 from .client import api
 
-dotenv.load_dotenv()
+load_dotenv()
 
 db = MongoEngine()
 login_manager = LoginManager()

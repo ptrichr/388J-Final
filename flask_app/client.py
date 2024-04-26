@@ -2,9 +2,10 @@ import requests
 import googlemaps
 import json
 import dateutil
-import datetime
+from datetime import datetime
 import os
 from dotenv import load_dotenv
+import pprint
     
 class api(object):
     def __init__(self, api_key):
@@ -17,16 +18,18 @@ class api(object):
     returns the address from the response, if an error occurs, prints code and message
     associated with the error type
     """
+    
+    # build in error handling for invalid locations
     def get_addr(self, location):
-        query = f'Closest Metro Station to {location} Washington DC'
-        response = json.load(self.client.find_place(input=query, 
-                                                  input_type='textquery', 
-                                                  fields=['formatted_address','name']))
+        query = f'Closest WMATA Metro Station to {location}'
+        response = self.client.find_place(input=query, 
+                                          input_type='textquery', 
+                                          fields=['formatted_address','name','types'])
         if "error" in response:
             code = response["error"]["code"]
             msg = response["error"]["message"]
             return f'Code:{code}, Error Message: {msg}'
-            
+        
         return response['candidates'][0]['formatted_address']
         
     """
@@ -72,14 +75,40 @@ class api(object):
         
         return response
 
-# testing
+# testing route computation stuff
 
-# load_dotenv()
-# time = datetime.datetime.today()
-# zulu_timestr = f'{time.year}-{time.month}-{time.day}T{time.hour}:{time.minute}:00Z'
-# client = api(os.getenv('GOOG_API_KEY'))
-# # takes time as HH:MM
-# resp = client.compute_route("L'enfant Plaza",
-#                      "University Of Maryland",
-#                      zulu_timestr)
-# print(resp)
+load_dotenv()
+time = datetime.now()
+new_hour = 0;
+if time.hour + 4 >= 24:
+    new_hour = time.hour + 4 - 24
+else:
+    new_hour = time.hour + 4
+
+if time.minute - 30 < 0:
+    new_minute = time.minute - 30 + 60
+    new_hour = new_hour - 1
+else:
+    new_minute = time.minute - 30
+
+zulu_timestr = f'{time.year}-{time.month}-{time.day}T{new_hour:02}:{new_minute:02}:00Z'
+print(zulu_timestr)
+client = api(os.getenv('GOOG_API_KEY'))
+# takes time as HH:MM
+resp = client.compute_route("Wiehle Avenue", "University of Maryland College Park", zulu_timestr)
+resp_dict = resp.json()
+
+# local json processing stuff
+# with open(r"dump.json", "w", encoding="utf-8") as f:
+#     json.dump(resp.json(), f, ensure_ascii=False, indent=4)
+# with open(r"dump.json", "r") as f:
+#     resp = json.load(f)
+
+filtered = filter((lambda x: x), resp_dict['routes'][0]['legs'][0]['steps'])
+
+for x in filtered:
+    pprint.pprint(x)
+    
+# notes about testing:
+# need to convert local time to UTC for zulu fmt
+# for some reason the departure time calculation has a random 30 minute buffer built in??

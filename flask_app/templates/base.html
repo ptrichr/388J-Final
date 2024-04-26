@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="en", data-theme="nord">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,9 @@
       href="{{url_for('static',filename='custom.css')}}"
     />
 </head>
+<title>UMD(C)</title>
 <body>
+    {% comment %} we should put in a header/navbar {% endcomment %}
     {% block content %}{% endblock %}
 </body>
 </html>
