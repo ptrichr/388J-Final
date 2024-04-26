@@ -10,7 +10,7 @@ import dotenv
 import os
 
 # local dependencies
-from client import api
+from .client import api
 
 dotenv.load_dotenv()
 

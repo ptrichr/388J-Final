@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_required, login_user, logout_user
 from .. import bcrypt
+import dateutil
 
 # other imports
-from forms import RegistrationForm, LoginForm, UpdateUsernameForm
-from models import User, Trip
+from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm
+from ..models import User, Trip
 
 # TODO
 # user route stuff (look at p4)
