@@ -1,7 +1,7 @@
 /venv/
 /.env
 /flask_app/testing/
-/flask_app/config.py/
-/tailwind/node_modules/
+/flask_app/config.py
+/tailwind/node_modules
 /tailwind/package-lock.json
 /tailwind/package.json
