@@ -1,10 +1,13 @@
+# root
 /venv
 /.env
 /**/__pycache__
 
+# flask app
 /flask_app/testing
 /flask_app/config.py
 
+# tailwind
 /tailwind/node_modules
 /tailwind/package-lock.json
 /tailwind/package.json
