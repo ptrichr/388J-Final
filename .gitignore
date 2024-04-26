@@ -1,7 +1,10 @@
 /venv/
 /.env
+
 /flask_app/testing/
+/flask_app/__pycache__
 /flask_app/config.py
+
 /tailwind/node_modules
 /tailwind/package-lock.json
 /tailwind/package.json

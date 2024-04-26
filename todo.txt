@@ -1,5 +1,7 @@
 Todo list:
 
+update readme (need tailwind, daisyui)
+
 Backend:
 finish route computation in trips routes
 make templates
@@ -7,4 +9,4 @@ add user detail route that displays trips (like reviews)
 maybe add a search for user function (add-on)
 
 Frontend:
-use a components library (idk how to do that)
+use a components library (idk how to do that) - we using daisyui
