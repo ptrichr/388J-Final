@@ -4,8 +4,9 @@ from datetime import datetime
 import dateutil
 
 # other imports
-from ..forms import StartForm, POIForm, InfoForm
+from ..forms import POIForm, StartForm
 from ..models import Trip, User
+from .. import client
 
 # you need to register to create routes, so add flasklogin stuff and force loginrequired
 # ok so what routes do we need that are trips related?
@@ -34,16 +35,17 @@ def index():
         if current_user.is_authenticated:
             
             # just get the start location and make that the placeholder title
-            start_loc = form.start_location.data;
+            title = form.title.data
+            depart_cp = form.depart_cp.data
             
             # initialize in DB
-            trip = Trip(title=start_loc,
-                        start_time=datetime.now(),
+            trip = Trip(title=title,
+                        start_time=depart_cp,
                         pois = [],
                         routes = [])
                         
             # redirect to init route
-            return redirect(url_for('trips.init_trip', start_loc=start_loc))
+            return redirect(url_for('trips.plan_trip', trip_title=title))
         
         # otherwise make them login
         return redirect(url_for('users.login'))
@@ -51,53 +53,59 @@ def index():
     # maybe add title field
     return render_template('index.html', form=form)
 
-# gathering some starting information about the trip, fixing information in DB
-@trips.route('/plan/initial')
-@login_required
-def init_trip(start_loc):
-    form = InfoForm()
-    
-    if form.validate_on_submit():
-        trip = Trip.objects(title=start_loc)
-        time = form.start_time.data
-        
-        # need to add the first POI and route from CP to POI
-        
-        # update DB with correct information
-        trip = Trip(title=form.title.data,
-                    start_time=datetime(time.year, time.month, time.day, time.hour, time.minute),
-                    pois=[],        # TODO
-                    routes=[])      # TODO
-        trip.save()
-        
-        # redirect to add pois route
-        return redirect(url_for('trips.add_pois', trip_title=trip.title))
-        
-    return render_template('trip_init.html', form=form)
-
 @trips.route('/plan/<trip_title>')
 @login_required
-def add_pois(trip_title):
+def plan_trip(trip_title):
     form = POIForm()
-    trip = list(Trip.objects(title=trip_title))[-1]
     pois = list(trip.pois)
+    routes = list(trip.routes)
+    trip = Trip.objects(title=trip_title)
     
     if form.validate_on_submit():
-        arrive = form.arrive.data
-        depart = form.depart.data
+        poi_to_add = form.poi.data
+        leave_poi_t = form.depart.data
+        depart_cp = trip.start_time
         
-        new_pois = pois.append(
-            {
-                "poi": form.poi.data,
-                "arrival": f'{arrive.hour}:{arrive.minute}',
-                "departure": f'{depart.hour}:{depart.minute}'
-            })
-        trip.modify(pois=new_pois)
+        # formatting time as datetime object
+        departure_datetime = datetime(depart_cp.year,
+                                          depart_cp.month,
+                                          depart_cp.day,
+                                          leave_poi_t.hour,
+                                          leave_poi_t.minute)
+        
+        # logic for if we need to compute route from college park (adding first POI)
+        if not pois:
+            route_info = client.compute_route("University of Maryland, College Park", 
+                                              poi_to_add, 
+                                              depart_cp)
+            
+            trip.modify(pois=trip.pois.append({
+                                                'poi': poi_to_add,
+                                                "departure": departure_datetime
+                                                }),
+                        routes=trip.routes.append(route_info))
+        
+        # logic for adding a new poi that is not the first
+        else:
+            prev = pois[-1]
+            route_info = client.compute_route(prev['poi'], poi_to_add, prev['departure'])
+            
+            trip.modify(pois=trip.pois.append({
+                                                'poi': poi_to_add,
+                                                "departure": departure_datetime
+                                                }), 
+                        routes=trip.routes.append(route_info))
+        
         trip.save()
+
+        # reload
+        return redirect(url_for('trips.plan_trip', trip_title=trip.title))
         
-        # TODO add route computation between prev location and new added location
-        
-        # refresh page
-        return redirect(url_for('trips.plan_trip', trip_title))
-        
-    return render_template('trip_planning.html', form=form, pois=pois)
+    return render_template('trip_planning.html', form=form, pois=pois, routes=routes)
+
+
+# review will handle the route calculation back to college park
+@trips.route('/review/<trip_title>')
+@login_required
+def review_trip(trip_title):
+    pass

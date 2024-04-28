@@ -4,8 +4,8 @@
 /**/__pycache__
 
 # flask app
-/flask_app/testing
 /flask_app/config.py
+/flask_app/ex_filtered_resp.txt
 
 # tailwind
 /tailwind/node_modules

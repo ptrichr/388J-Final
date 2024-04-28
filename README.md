@@ -4,14 +4,14 @@ A simple transit itinerary for DC trips. Nathan Ho, Spring 2024
 
 ## Getting Started
 
-#### Clone the repository:
+### Clone the repository:
 
-> via URL
+> via URL:
 > ```console
 > $ git clone https://github.com/ptrichr/388J-Final.git
 > ```
 
-> via SSH
+> via SSH:
 > ```console
 > $ git clone git@github.com:ptrichr/388J-Final.git
 > ```
@@ -22,21 +22,59 @@ A simple transit itinerary for DC trips. Nathan Ho, Spring 2024
 > $ git pull origin master
 > ```
 
-#### Install the required dependencies:
+### Install the required dependencies:
 
-```console
-$ pip3 install -r requirements.txt
-```
+> In `root`:
+> ```console
+> $ pip3 install -r requirements.txt
+> ```
 
-#### Configure the environment:
-> Create a .env file
+### Configure Tailwind:
+
+> [!IMPORTANT]
+> This project uses CLI Tailwind, not CDN, the script to compile is included in the tailwind directory
+
+#### [Install Tailwind](https://tailwindcss.com/docs/installation)
+
+#### [Install DaisyUI](https://daisyui.com/docs/install/)
+
+> In `root/tailwind`:
+> ```console
+> $ chmod +x tw.sh
+> ```
+
+
+### Configure the environment:
+
+> Create `.env`, `config.py` files:
 > ```console
 > $ touch .env
+> $ touch flask_app/config.py
 > ```
 
-> Format .env file
+> Format `.env` file:
 > ```bash
-> export SECRET_KEY = <replace with your csrf key>
-> export MONGODB_HOST = <replace with your mongo uri>
 > export GOOG_API_KEY = <replace with your API key>
 > ```
+
+> Format `config.py`:
+> ```python
+> SECRET_KEY = '{your csrf key here}'
+> MONGODB_HOST = '{your URI here}'
+> ```
+
+## Running the Application:
+
+### In split terminals:
+
+> In `root`:
+> ```console
+> $ flask run
+> ```
+> In `root/tailwind`:
+> ```console
+> $ ./tw.sh
+> ```
+
+## Writeup
+`TODO`

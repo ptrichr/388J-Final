@@ -5,21 +5,14 @@ from wtforms.validators import InputRequired, Length, EqualTo, ValidationError
 
 from .models import User
 
-class StartForm(FlaskForm):
-    start_location = StringField(
-        "Where are we headed?", 
-        validators=[InputRequired(), Length(min=1, max=50)]
-        )
-    submit = SubmitField("Let's Go!")
-
 # naming the trip duh
-class InfoForm(FlaskForm):
+class StartForm(FlaskForm):
     title = StringField(
         "Trip Name",
         validators=[InputRequired(), Length(min=1, max=50)]
         )
-    start_time = DateTimeField("Start Time", validators=[InputRequired()])
-    submit = SubmitField("Start Planning")
+    depart_cp = DateTimeField("Departure Time?", validators=[InputRequired()])
+    submit = SubmitField("Let's Go!")
 
 # for creating routes/adding points of interest
 # the time form from WTForms components returns a time in datetime.time standard:
@@ -28,7 +21,6 @@ class InfoForm(FlaskForm):
 # maybe make a validator that prevents doubling up on a point of interest
 class POIForm(FlaskForm):
     poi = StringField("Enter a Point of Interest", validators=[InputRequired(), Length(max=50)])
-    arrive = TimeField("Arrival Time", validators=[InputRequired()])
     depart = TimeField("Departure Time", validators=[InputRequired()])
     submit = SubmitField("Add to Trip")
 
