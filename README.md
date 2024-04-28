@@ -31,18 +31,8 @@ A simple transit itinerary for DC trips. Nathan Ho, Spring 2024
 
 ### Configure Tailwind:
 
-> [!IMPORTANT]
-> This project uses CLI Tailwind, not CDN, the script to compile is included in the tailwind directory
-
-#### [Install Tailwind](https://tailwindcss.com/docs/installation)
-
-#### [Install DaisyUI](https://daisyui.com/docs/install/)
-
-> In `root/tailwind`:
-> ```console
-> $ chmod +x tw.sh
-> ```
-
+> #### [Install Tailwind](https://tailwindcss.com/docs/installation)
+> #### [Install DaisyUI](https://daisyui.com/docs/install/)
 
 ### Configure the environment:
 
