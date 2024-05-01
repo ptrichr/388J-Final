@@ -1,5 +1,54 @@
 {% extends 'base.html' %} 
 
 {% block content %}
+<div class="container">
+    {# show flashed messages if an authentication error occurs #}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="error" role="alert">
+                    <span>{{ message }}</span>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
+    <form class="review-form" method="POST" action="">
+        {{ form.csrf_token }}
+        <div class="form-group review-input">
+            {{ form.username.label }}
+            {{ form.username(class="form-content") }}
+            {% if form.username.errors %}
+            <div class="error" role="alert">
+                {% for error in form.username.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="form-group review-input">
+            {{ form.password.label }}
+            {{ form.password(class="form-content") }}
+            {% if form.password.errors %}
+            <div class="error" role="alert">
+                {% for error in form.password.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="form-group review-input">
+            {{ form.confirm_password.label }}
+            {{ form.confirm_password(class="form-content") }}
+            {% if form.confirm_password.errors %}
+            <div class="error" role="alert">
+                {% for error in form.confirm_password.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {{ form.submit(class="review-button") }}
+    </form>
+</div>
 {% endblock %}

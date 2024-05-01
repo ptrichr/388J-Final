@@ -8,8 +8,23 @@
     />
 </head>
 <title>UMD(C)</title>
+<nav class="navbar flex w-full justify-between">
+    <a role="button" class="btn" href="{{ url_for('trips.index') }}">Home</a>
+    {% if current_user.is_authenticated %}
+    <div class="flex">
+        <a role="button" class="btn btn-neutral" href="{{ url_for('users.account') }}">Account</a>
+        <a role="button" class="btn btn-error" href="{{ url_for('users.logout') }}">Logout</a>
+    </div>
+    {% else %}
+    <div class="flex">
+        <a role="button" class="btn btn-neutral" href="{{ url_for('users.login') }}">Login</a>
+        <a role="button" class="btn btn-neutral" href="{{ url_for('users.register') }}">Register</a>
+    </div>
+    {% endif %}
+</nav>
 <body>
-    {% comment %} we should put in a header/navbar {% endcomment %}
+    {# we should put in a header/navbar #}
+    {# navbar for index/logins added #}
     {% block content %}{% endblock %}
 </body>
 </html>
