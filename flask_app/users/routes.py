@@ -14,11 +14,11 @@ from ..models import User, Trip
 
 users = Blueprint("users", __name__)
 
-@users.route('/register', methods=["GET", "POST"])
+@users.route("/register", methods=["GET", "POST"])
 def register():
     # if user is already logged in, send to home page
     if current_user.is_authenticated:
-        return redirect(url_for('trips.index'))
+        return redirect(url_for("trips.index"))
     
     form = RegistrationForm()
     
@@ -26,20 +26,21 @@ def register():
     if form.validate_on_submit():
         hashed = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, 
+                    # email=form.email.data, 
                     password=hashed)
         user.save()
         
         #redirect to login page
-        return redirect(url_for('users.login'))
+        return redirect(url_for("users.login"))
     
     # otherwise re-render page
     return render_template('register.html', title="Register", form=form)
 
-@users.route('/login', methods=["GET", "POST"])
+@users.route("/login", methods=["GET", "POST"])
 def login():
     # if user is already logged in, send to home page
     if current_user.is_authenticated:
-        return redirect(url_for('trips.index'))
+        return redirect(url_for("trips.index"))
     
     form = LoginForm()
     
@@ -48,7 +49,7 @@ def login():
         
         if (user is not None and bcrypt.check_password_hash(user.password, form.password.data)):
             login_user(user)
-            return redirect(url_for('users.account'))
+            return redirect(url_for("trips.index"))
         else:
             flash(message="Authentication Error. Please Try Logging in Again")
     
@@ -58,7 +59,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('trips.index'))
+    return redirect(url_for("trips.index"))
 
 # now displays trips as well
 # idk if this url actually works
@@ -74,6 +75,6 @@ def account():
             current_user.modify(username=update_username_form.username.data)
             
         if not update_username_form.errors:
-            return redirect(url_for('users.account'))  # redirect to reflect changes
+            return redirect(url_for("users.acount"))  # redirect to reflect changes
         
     return render_template('account.html', update_username_form=update_username_form, trips=trips)

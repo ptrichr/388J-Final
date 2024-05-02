@@ -1,12 +1,23 @@
 {% extends 'base.html' %} 
 
-{% block content %}
-{# 
- - render form on a bar on the left side
- - render each poi in a box
- - below each poi render an arrow to a box (or to boxes if there are multiple steps) 
+{% block content %} 
+<!-- 
+  - render form on a bar on the left side
+  - render each poi in a box
+  - below each poi render an arrow to a box (or to boxes if there are multiple steps) 
    that has the route information
-    - aka what line, what headsign, and the stations to get on and off at
-    - and then another arrow under that where the next poi will be rendered
-#}
+  - aka what line, what headsign, and the stations to get on and off at
+  - and then another arrow under that where the next poi will be rendered --> 
+<div class="w-screen h-full flex flex-col mx-auto">
+
+  <!-- form container --> 
+  <div class="w-1/3">
+    <form class="mx-auto flex flex-col">
+      {{ form.csrf_token }}
+      {{ form.poi() }}
+      {{ form.depart() }}
+      {{ form.submit() }}
+    </form>
+  </div>
+</div>
 {% endblock %}

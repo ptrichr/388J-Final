@@ -1,43 +1,13 @@
 {% extends 'base.html' %} 
 
 {% block content %}
-<div class="container">
-    {# show flashed messages if an authentication error occurs #}
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                <div class="error" role="alert">
-                    <span>{{ message }}</span>
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
-    <form class="review-form" method="POST" action="">
+<div class="mx-auto flex flex-col gap-y-2">
+    <a class="mx-auto" href="{{url_for('users.register')}}">register</a>
+    <form class="mx-auto" method="POST" action="">
         {{ form.csrf_token }}
-        <div class="form-group review-input">
-            {{ form.username.label }}
-            {{ form.username(class="form-content") }}
-            {% if form.username.errors %}
-            <div class="error" role="alert">
-                {% for error in form.username.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
-            </div>
-            {% endif %}
-        </div>
-        <div class="form-group review-input">
-            {{ form.password.label }}
-            {{ form.password(class="form-content") }}
-            {% if form.password.errors %}
-            <div class="error" role="alert">
-                {% for error in form.password.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
-            </div>
-            {% endif %}
-        </div>
-        {{ form.submit(class="review-button") }}
+        {{ form.username(placeholder="username") }}
+        {{ form.password(placeholder="password") }}
+        {{ form.submit() }}
     </form>
 </div>
 {% endblock %}

@@ -1,17 +1,18 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
-from wtforms_components import TimeField, DateTimeField
+from wtforms_components import TimeField, DateTimeLocalField
 from wtforms.validators import InputRequired, Length, EqualTo, ValidationError
 
 from .models import User
 
 # naming the trip duh
 class StartForm(FlaskForm):
-    title = StringField(
-        "Trip Name",
-        validators=[InputRequired(), Length(min=1, max=50)]
-        )
-    depart_cp = DateTimeField("Departure Time?", validators=[InputRequired()])
+    title = StringField("Trip Name",
+                        validators=[InputRequired(), 
+                                    Length(min=1, max=50)])
+    depart_cp = DateTimeLocalField("Departure Time?", 
+                                   format="%Y-%m-%dT%H:%M", 
+                                   validators=[InputRequired()])
     submit = SubmitField("Let's Go!")
 
 # for creating routes/adding points of interest

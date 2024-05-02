@@ -10,3 +10,7 @@ maybe add a search for user function (add-on)
 
 Frontend:
 use a components library (idk how to do that) - we using daisyui
+
+
+FOR SOME REASON INDEX FORM IS NOT WORKING
+make a plan route button that requires login i guess

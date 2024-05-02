@@ -39,6 +39,6 @@ def create_app(test_config=None):
     app.register_blueprint(trips)
     # TODO app.register_error_handler()
     
-    login_manager.login_view = 'users.login'
+    login_manager.login_view = "users.login"
     
     return app

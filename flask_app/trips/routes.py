@@ -27,79 +27,84 @@ from .. import client
 
 trips = Blueprint("trips", __name__)
 
-@trips.route('/')
+@trips.route("/", methods=["GET", "POST"])
 def index():
     form = StartForm()
-    
-    if form.validate_on_submit():
-        if current_user.is_authenticated:
-            
+        
+    if request.method == "POST":
+        if current_user.is_authenticated == False:
+            return redirect(url_for("users.login"))
+        
+        if form.validate_on_submit():          
             # just get the start location and make that the placeholder title
             title = form.title.data
             depart_cp = form.depart_cp.data
             
             # initialize in DB
-            trip = Trip(title=title,
+            trip = Trip(author=current_user._get_current_object(),
+                        title=title,
                         start_time=depart_cp,
-                        pois = [],
-                        routes = [])
+                        pois=[],
+                        routes=[])
+            trip.save()
                         
             # redirect to init route
-            return redirect(url_for('trips.plan_trip', trip_title=title))
+            return redirect(url_for("trips.plan_trip", trip_title=title))
         
-        # otherwise make them login
-        return redirect(url_for('users.login'))
+        print(form.errors)
     
     # maybe add title field
     return render_template('index.html', form=form)
 
-@trips.route('/plan/<trip_title>')
+@trips.route("/plan/<trip_title>", methods=["GET", "POST"])
 @login_required
-def plan_trip(trip_title):
+def plan_trip(trip_title):    
     form = POIForm()
+    trip = Trip.objects(title=trip_title).first()
     pois = list(trip.pois)
     routes = list(trip.routes)
-    trip = Trip.objects(title=trip_title)
     
-    if form.validate_on_submit():
-        poi_to_add = form.poi.data
-        leave_poi_t = form.depart.data
-        depart_cp = trip.start_time
+    if request.method == "POST":
         
-        # formatting time as datetime object
-        departure_datetime = datetime(depart_cp.year,
-                                          depart_cp.month,
-                                          depart_cp.day,
-                                          leave_poi_t.hour,
-                                          leave_poi_t.minute)
-        
-        # logic for if we need to compute route from college park (adding first POI)
-        if not pois:
-            route_info = client.compute_route("University of Maryland, College Park", 
-                                              poi_to_add, 
-                                              depart_cp)
+        if form.validate_on_submit():
+            poi_to_add = form.poi.data
+            leave_poi_t = form.depart.data
+            depart_cp = trip.start_time
             
-            trip.modify(pois=trip.pois.append({
-                                                'poi': poi_to_add,
-                                                "departure": departure_datetime
-                                                }),
-                        routes=trip.routes.append(route_info))
-        
-        # logic for adding a new poi that is not the first
-        else:
-            prev = pois[-1]
-            route_info = client.compute_route(prev['poi'], poi_to_add, prev['departure'])
+            # formatting time as datetime object
+            departure_datetime = datetime(depart_cp.year,
+                                            depart_cp.month,
+                                            depart_cp.day,
+                                            leave_poi_t.hour,
+                                            leave_poi_t.minute)
             
-            trip.modify(pois=trip.pois.append({
-                                                'poi': poi_to_add,
-                                                "departure": departure_datetime
-                                                }), 
-                        routes=trip.routes.append(route_info))
-        
-        trip.save()
+            # logic for if we need to compute route from college park (adding first POI)
+            if not pois:
+                route_info = client.compute_route("University of Maryland, College Park", 
+                                                poi_to_add, 
+                                                depart_cp)
+                
+                trip.modify(pois=trip.pois.append({
+                                                    'poi': poi_to_add,
+                                                    "departure": departure_datetime
+                                                    }),
+                            routes=trip.routes.append(route_info))
+            
+            # logic for adding a new poi that is not the first
+            else:
+                prev = pois[-1]
+                route_info = client.compute_route(prev['poi'], poi_to_add, prev['departure'])
+                
+                trip.modify(pois=trip.pois.append({
+                                                    'poi': poi_to_add,
+                                                    "departure": departure_datetime
+                                                    }), 
+                            routes=trip.routes.append(route_info))
+            
+            trip.save()
 
-        # reload
-        return redirect(url_for('trips.plan_trip', trip_title=trip.title))
+            # reload
+            return redirect(url_for("trips.plan_trip", trip_title=trip.title))
         
     return render_template('trip_planning.html', form=form, pois=pois, routes=routes)
 
