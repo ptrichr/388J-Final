@@ -122,7 +122,7 @@ class api(object):
             'travelMode': "TRANSIT",
             'departureTime': zulu_timestr,
             'transitPreferences': {
-                'allowedTravelModes': ["SUBWAY", "TRAIN"]
+                'allowedTravelModes': ["SUBWAY"]
             }
         }
         

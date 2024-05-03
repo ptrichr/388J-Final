@@ -11,7 +11,7 @@
 <div class="w-screen h-full flex flex-row mx-auto">
 
   <!-- form container --> 
-  <div class="w-1/3">
+  <div class="flex mx-auto w-1/3 h-fit">
     <form class="mx-auto flex flex-col" method="POST">
       {{ form.csrf_token }}
       {{ form.poi() }}
@@ -19,18 +19,23 @@
       {{ form.submit() }}
     </form>
   </div>
-  <div class="w-full grid grid-cols-1">
+  <div class="flex flex-col flex-wrap items-center">
     {% for pair in info %}
-      <div class="mx-auto w-fit h-fit content-center">
-        <b class="grid">{{ pair[0]['name'] }}</b>
-        <b class="grid">{{ pair[0]['departure'] }}</b>
+      <div class="flex">
+        <b >{{ pair[0]['name'] }}</b>
+        <b >{{ pair[0]['departure'] }}</b>
         <!-- pair[1] is a dictionary -->
-        {% for step in pair[1]['route'] %}
-            <b class="grid">{{ step['line_info']['line'] }}</b>
-            <b class="grid">{{ step['from']['name'] }}</b>
-            <b class="grid">{{ step['to']['name'] }}</b>
-        {% endfor %}
+        {% if pair[1]['route'] %}
+          {% for step in pair[1]['route'] %}
+            <b>{{ step['line_info']['line'] }}</b>
+            <b>{{ step['from']['name'] }}</b>
+            <b>{{ step['to']['name'] }}</b>
+          {% endfor %}
+        {% else %}
+          <b>ur walking buddy</b>
+        {% endif %}
       </div>
+    </div>
     {% endfor %}
   </div>
 </div>

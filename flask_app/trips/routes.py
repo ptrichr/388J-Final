@@ -26,6 +26,7 @@ from .. import client
 # the first poi is that location in DC, and has a start time filled in by the arrival time at the station
 # then user has to fill in the end time, and from there we do the rest of the POIs
 
+
 trips = Blueprint("trips", __name__)
 
 @trips.route("/", methods=["GET", "POST"])
@@ -92,7 +93,8 @@ def plan_trip(trip_title):
                                     'name': poi_to_add,
                                     "departure": departure_datetime
                                 })
-                trip.routes.append({'steps': route_info})
+                trip.routes.append({'route': route_info})
+                pprint(route_info)
                 trip.save()
             
             # logic for adding a new poi that is not the first
@@ -109,7 +111,7 @@ def plan_trip(trip_title):
             
             # reload
             return redirect(url_for("trips.plan_trip", trip_title=trip.title))
-        print(form.errors)
+        
     return render_template('trip_planning.html', form=form, info=trip_info)
 
 

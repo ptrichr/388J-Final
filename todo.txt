@@ -4,13 +4,12 @@ update readme (need tailwind, daisyui)
 
 Backend:
 finish route computation in trips routes
-make templates
 add user detail route that displays trips (like reviews)
 maybe add a search for user function (add-on)
+something i noticed - if you can walk, the route is empty
 
 Frontend:
-use a components library (idk how to do that) - we using daisyui
+finish the account page - it should have some user data and the users trips
+the trips should link back to the plan trip page
+anyways the tailwind is all fucked
 
-
-FOR SOME REASON INDEX FORM IS NOT WORKING
-make a plan route button that requires login i guess
