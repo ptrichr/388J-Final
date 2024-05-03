@@ -6,6 +6,7 @@
 # flask app
 /flask_app/config.py
 /flask_app/ex_filtered_resp.txt
+/flask_app/testing/
 
 # tailwind
 /tailwind/node_modules

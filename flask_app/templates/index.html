@@ -4,7 +4,7 @@
 <div class="w-screen h-full flex items-center">
     <div class="w-fit h-full mx-auto flex flex-col justify-center">
         <h1 class="mx-auto">UMD(C)</h1>
-        <form class="mx-auto gap-y-2 flex flex-col" method="POST" action="">
+        <form class="mx-auto gap-y-2 flex flex-col" method="POST" action="/">
             {{ form.csrf_token }}
             {{ form.title(class="input-ghost mx-auto", placeholder="Trip Name") }}
             {{ form.depart_cp(class="input-ghost mx-auto", placeholder="Departure Time") }}

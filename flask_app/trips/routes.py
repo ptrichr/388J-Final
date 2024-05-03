@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, url_for, request, redirect
 from flask_login import login_required, current_user
 from datetime import datetime
 import dateutil
+from pprint import pprint
 
 # other imports
 from ..forms import POIForm, StartForm
@@ -51,18 +52,22 @@ def index():
             # redirect to init route
             return redirect(url_for("trips.plan_trip", trip_title=title))
         
-        print(form.errors)
-    
     # maybe add title field
     return render_template('index.html', form=form)
 
+
+# TODO something is going wrong here with the time
 @trips.route("/plan/<trip_title>", methods=["GET", "POST"])
 @login_required
 def plan_trip(trip_title):    
     form = POIForm()
     trip = Trip.objects(title=trip_title).first()
     pois = list(trip.pois)
+    # routes is a list of dictionaries that each contain a key "route" that is mapped
+    # to a list of dictionaries (steps) that contain the keys line_info, from, to, which are 
+    # dictionaries themselves
     routes = list(trip.routes)
+    trip_info = zip(pois, routes)
     
     if request.method == "POST":
         
@@ -73,40 +78,39 @@ def plan_trip(trip_title):
             
             # formatting time as datetime object
             departure_datetime = datetime(depart_cp.year,
-                                            depart_cp.month,
-                                            depart_cp.day,
-                                            leave_poi_t.hour,
-                                            leave_poi_t.minute)
+                                          depart_cp.month,
+                                          depart_cp.day,
+                                          leave_poi_t.hour,
+                                          leave_poi_t.minute)
             
             # logic for if we need to compute route from college park (adding first POI)
             if not pois:
                 route_info = client.compute_route("University of Maryland, College Park", 
-                                                poi_to_add, 
-                                                depart_cp)
-                
-                trip.modify(pois=trip.pois.append({
-                                                    'poi': poi_to_add,
-                                                    "departure": departure_datetime
-                                                    }),
-                            routes=trip.routes.append(route_info))
+                                                  poi_to_add, 
+                                                  depart_cp)
+                trip.pois.append({
+                                    'name': poi_to_add,
+                                    "departure": departure_datetime
+                                })
+                trip.routes.append({'steps': route_info})
+                trip.save()
             
             # logic for adding a new poi that is not the first
             else:
                 prev = pois[-1]
-                route_info = client.compute_route(prev['poi'], poi_to_add, prev['departure'])
-                
-                trip.modify(pois=trip.pois.append({
-                                                    'poi': poi_to_add,
-                                                    "departure": departure_datetime
-                                                    }), 
-                            routes=trip.routes.append(route_info))
+                route_info = client.compute_route(prev['name'], poi_to_add, prev['departure'])
+                trip.pois.append({
+                                    'name': poi_to_add,
+                                    "departure": departure_datetime
+                                })
+                trip.routes.append({'route': route_info})
+                pprint(route_info)
+                trip.save()
             
-            trip.save()
-
             # reload
             return redirect(url_for("trips.plan_trip", trip_title=trip.title))
-        
-    return render_template('trip_planning.html', form=form, pois=pois, routes=routes)
+        print(form.errors)
+    return render_template('trip_planning.html', form=form, info=trip_info)
 
 
 # review will handle the route calculation back to college park

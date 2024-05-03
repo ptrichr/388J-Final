@@ -8,16 +8,30 @@
    that has the route information
   - aka what line, what headsign, and the stations to get on and off at
   - and then another arrow under that where the next poi will be rendered --> 
-<div class="w-screen h-full flex flex-col mx-auto">
+<div class="w-screen h-full flex flex-row mx-auto">
 
   <!-- form container --> 
   <div class="w-1/3">
-    <form class="mx-auto flex flex-col">
+    <form class="mx-auto flex flex-col" method="POST">
       {{ form.csrf_token }}
       {{ form.poi() }}
       {{ form.depart() }}
       {{ form.submit() }}
     </form>
+  </div>
+  <div class="w-full grid grid-cols-1">
+    {% for pair in info %}
+      <div class="mx-auto w-fit h-fit content-center">
+        <b class="grid">{{ pair[0]['name'] }}</b>
+        <b class="grid">{{ pair[0]['departure'] }}</b>
+        <!-- pair[1] is a dictionary -->
+        {% for step in pair[1]['route'] %}
+            <b class="grid">{{ step['line_info']['line'] }}</b>
+            <b class="grid">{{ step['from']['name'] }}</b>
+            <b class="grid">{{ step['to']['name'] }}</b>
+        {% endfor %}
+      </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}
