@@ -1,5 +1,24 @@
 {% extends 'base.html' %} 
 
 {% block content %}
+<div class="mx-auto flex flex-ol gap-y-2">
+    Update username 
+    <form method="POST" action="">
+        {{ update_username_form.csrf_token }}
+        {{ update_username_form.username(placeholder="new username") }}
+        {{ update_username_form.submit_username() }}
+    </form>
+</div>
+<div class="mx-auto flex flex-col gap-y-2">
+    Trips for {{ current_user.username }}<br>
+    Number of trips: {{ trips|length }}
+</div>
+<ul>
+    {% for trip in trips %}
+    <li>
+        <a href="{{ url_for('trips.plan_trip', trip_title=trip.title) }}">{{ trip.title }}</a>
+    </li>
+    {% endfor %}
+</ul>
 
 {% endblock %}

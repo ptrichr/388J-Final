@@ -2,7 +2,10 @@
 
 {% block content %}
 <div class="mx-auto flex flex-col gap-y-2">
-    <a class="mx-auto" href="{{url_for('users.register')}}">register</a>
+    <div class="mx-auto"> 
+        If you don't have an account, 
+        <a class="text-blue-400 underline" href="{{url_for('users.register')}}">register here</a>
+    </div>
     <form class="mx-auto" method="POST" action="">
         {{ form.csrf_token }}
         {{ form.username(placeholder="username") }}

@@ -1,26 +1,26 @@
-<html lang="en", data-theme="nord">
+<html lang="en" , data-theme="nord">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link
-      rel="stylesheet"
-      href="{{url_for('static',filename='custom.css')}}"
-    />
+    <link rel="stylesheet" href="{{url_for('static',filename='custom.css')}}" />
 </head>
 <title>UMD(C)</title>
+
 <body class="p-0">
-  {% if current_user.is_authenticated %}
+    {% if current_user.is_authenticated %}
     <span class="navbar bg-base-100 grid grid-cols-2 gap-x-4 justify-end">
-      <a class="btn btn-ghost text-xl" href="{{url_for('trips.index')}}">Home</a>
-      <a class="btn btn-ghost text-xl" href="{{url_for('users.account')}}">Account</a>
-      <a class="btn btn-ghost text-xl" href="{{url_for('users.logout')}}">logout</a>
+        <a class="btn btn-ghost text-xl" href="{{url_for('trips.index')}}">Home</a>
+        <a class="btn btn-ghost text-xl" href="{{url_for('users.account')}}">Account</a>
+        <a class="btn btn-ghost text-xl" href="{{url_for('users.logout')}}">logout</a>
     </span>
-  {% else %}
+    {% else %}
     <span class="navbar bg-base-100 grid grid-cols-2 gap-x-4 justify-end">
-      <a class="btn btn-ghost text-xl" href="{{url_for('trips.index')}}">Home</a>
-      <a class="btn btn-ghost text-xl" href="{{url_for('users.account')}}">Account</a>
+        <a class="btn btn-ghost text-xl" href="{{url_for('trips.index')}}">Home</a>
+        <a class="btn btn-ghost text-xl" href="{{url_for('users.account')}}">Account</a>
     </span>
-  {% endif %}
-  {% block content %}{% endblock %}
+    {% endif %}
+    {% block content %}{% endblock %}
 </body>
+
 </html>

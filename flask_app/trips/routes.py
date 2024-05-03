@@ -62,7 +62,7 @@ def index():
 @login_required
 def plan_trip(trip_title):    
     form = POIForm()
-    trip = Trip.objects(title=trip_title).first()
+    trip = Trip.objects(title=trip_title, author=current_user).first()
     pois = list(trip.pois)
     # routes is a list of dictionaries that each contain a key "route" that is mapped
     # to a list of dictionaries (steps) that contain the keys line_info, from, to, which are 

@@ -67,7 +67,7 @@ def logout():
 @login_required
 def account():
     update_username_form = UpdateUsernameForm()
-    trips = list(Trip.objects())
+    trips = list(Trip.objects(author=current_user))
     
     if request.method == "POST":        
         if update_username_form.submit_username.data and update_username_form.validate():
