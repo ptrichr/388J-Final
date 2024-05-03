@@ -8,18 +8,18 @@
    that has the route information
   - aka what line, what headsign, and the stations to get on and off at
   - and then another arrow under that where the next poi will be rendered --> 
-<div class="w-screen h-full flex flex-row mx-auto">
+<div class="w-screen h-full flex flex-row flex-wrap mx-auto">
 
   <!-- form container --> 
-  <div class="flex mx-auto w-1/3 h-fit">
-    <form class="mx-auto flex flex-col" method="POST">
+  <div class="flex mx-auto w-1/3 h-fit flex-wrap">
+    <form class="mx-auto flex flex-col flex-wrap" method="POST">
       {{ form.csrf_token }}
       {{ form.poi() }}
       {{ form.depart() }}
       {{ form.submit() }}
     </form>
   </div>
-  <div class="flex flex-col flex-wrap items-center">
+  <div class="flex flex-row flex-wrap items-center">
     {% for pair in info %}
       <div class="flex">
         <b >{{ pair[0]['name'] }}</b>
