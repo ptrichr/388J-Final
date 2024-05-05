@@ -12,7 +12,6 @@ import os
 # local dependencies
 from .client import api
 
-load_dotenv()
 
 db = MongoEngine()
 login_manager = LoginManager()
@@ -27,7 +26,9 @@ def create_app(test_config=None):
     app = Flask(__name__)
     
     # get config
-    app.config.from_pyfile('config.py', silent=False)   
+    # app.config.from_pyfile('config.py', silent=False) 
+    SECRET_KEY = os.getenv('SECRET_KEY')
+    MONGO_HOST = os.getenv('MONGO_HOST')
      
     # init clients
     db.init_app(app)
