@@ -1,24 +1,26 @@
 {% extends 'base.html' %} 
 
 {% block content %}
-<div class="mx-auto flex flex-ol gap-y-2">
-    Update username 
-    <form method="POST" action="">
-        {{ update_username_form.csrf_token }}
-        {{ update_username_form.username(placeholder="new username") }}
-        {{ update_username_form.submit_username() }}
-    </form>
+<div class="mx-auto flex flex-col gap-y-24">
+    <div class="flex flex-col items-center gap-y-4">
+        <b class="text-center">Update Username:</b> 
+        <form class="mx-auto flex flex-col gap-y-2" method="POST" action="">
+            {{ update_username_form.csrf_token }}
+            {{ update_username_form.username(class="input input-bordered w-full max-w-xs", placeholder="New Username") }}
+            {{ update_username_form.submit_username(class="btn btn-ghost text-lg mx-auto") }}
+        </form>
+    </div>
+    <div class="mx-auto flex flex-col gap-y-2">
+        Trips for {{ current_user.username }}<br>
+        Number of trips: {{ trips|length }}
+        <ul>
+            {% for trip in trips %}
+            <li>
+                <a href="{{ url_for('trips.plan_trip', trip_title=trip.title) }}">{{ trip.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
-<div class="mx-auto flex flex-col gap-y-2">
-    Trips for {{ current_user.username }}<br>
-    Number of trips: {{ trips|length }}
-</div>
-<ul>
-    {% for trip in trips %}
-    <li>
-        <a href="{{ url_for('trips.plan_trip', trip_title=trip.title) }}">{{ trip.title }}</a>
-    </li>
-    {% endfor %}
-</ul>
 
 {% endblock %}

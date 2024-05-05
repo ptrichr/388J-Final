@@ -75,6 +75,6 @@ def account():
             current_user.modify(username=update_username_form.username.data)
             
         if not update_username_form.errors:
-            return redirect(url_for("users.acount"))  # redirect to reflect changes
+            return redirect(url_for("users.account"))  # redirect to reflect changes
         
     return render_template('account.html', update_username_form=update_username_form, trips=trips)

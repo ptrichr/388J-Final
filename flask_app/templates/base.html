@@ -8,19 +8,43 @@
 <title>UMD(C)</title>
 
 <body class="p-0">
-    {% if current_user.is_authenticated %}
-    <span class="navbar bg-base-100 grid grid-cols-2 gap-x-4 justify-end">
-        <a class="btn btn-ghost text-xl" href="{{url_for('trips.index')}}">Home</a>
-        <a class="btn btn-ghost text-xl" href="{{url_for('users.account')}}">Account</a>
-        <a class="btn btn-ghost text-xl" href="{{url_for('users.logout')}}">logout</a>
-    </span>
-    {% else %}
-    <span class="navbar bg-base-100 grid grid-cols-2 gap-x-4 justify-end">
-        <a class="btn btn-ghost text-xl" href="{{url_for('trips.index')}}">Home</a>
-        <a class="btn btn-ghost text-xl" href="{{url_for('users.account')}}">Account</a>
-    </span>
-    {% endif %}
-    {% block content %}{% endblock %}
+    <div class="flex flex-col items-center w-screen h-screen">
+        <!-- navbar -->
+        <div class="navbar bg-base-100 sticky top-0">
+            <div class="flex-1">
+                <a class="btn btn-ghost text-lg" href="{{url_for('trips.index')}}">
+                    UMD{C}
+                </a>
+            </div>
+            {% if current_user.is_authenticated %}
+                <details class="flex-none dropdown dropdown-bottom dropdown-end">
+                    <ul class="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52">
+                        <a class="btn btn-ghost text-lg" href="{{url_for('users.account')}}">
+                            {{current_user.username}}
+                        </a>
+                        <a class="btn btn-ghost text-lg" href="{{url_for('users.logout')}}">
+                            Logout
+                        </a>
+                    </ul>
+                    <summary class="m-1 btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </summary>
+                </details> 
+            {% else %}
+                <a class="btn btn-ghost text-lg" href="{{url_for('users.account')}}">
+                    Login
+                </a>
+            {% endif %}
+        </div>
+        <!-- end navbar -->
+        
+        <!-- content -->
+        {% block content %}{% endblock %}
+        <!-- end content -->
+
+        <!-- maybe add github and whatnot -->
+
+    </div>
 </body>
 
 </html>

@@ -8,35 +8,76 @@
    that has the route information
   - aka what line, what headsign, and the stations to get on and off at
   - and then another arrow under that where the next poi will be rendered --> 
-<div class="w-screen h-full flex flex-row flex-wrap mx-auto">
 
-  <!-- form container --> 
-  <div class="flex mx-auto w-1/3 h-fit flex-wrap">
-    <form class="mx-auto flex flex-col flex-wrap" method="POST">
+<div class="w-full h-full flex flex-row items-center">
+  <!-- POI add form -->
+  <div class = "w-1/3 h-1/3 flex flex-col items-center">
+    <form class="mx-auto flex flex-col flex-wrap w-full h-full items-center" method="POST">
       {{ form.csrf_token }}
-      {{ form.poi() }}
-      {{ form.depart() }}
-      {{ form.submit() }}
+      {{ form.poi(class="input input-bordered w-full max-w-xs", placeholder="Enter Point of Interest") }}
+      {{ form.depart(class="input input-bordered w-full max-w-xs") }}
+      {{ form.submit(class="btn btn-ghost text-lg mx-auto") }}
     </form>
+    <a class="btn btn-ghost text-xl w-fit" href="{{url_for('users.account')}}">Finished!</a>
   </div>
-  <div class="flex flex-row flex-wrap items-center">
+  <!-- end POI add form -->
+
+  <!-- POI display container -->
+  <!-- maybe for each horizontal rule we can make it the color of the line since store that info -->
+  <div class="flex flex-col flex-wrap items-center w-full h-full">
+    <ul class="timeline timeline-vertical">
     {% for pair in info %}
-      <div class="flex">
-        <b >{{ pair[0]['name'] }}</b>
-        <b >{{ pair[0]['departure'] }}</b>
+    <!-- route timeline point -->
+    <li>
+      <hr/>
+      <div class="timeline-start timeline-box flex flex-col gap-2">
         <!-- pair[1] is a dictionary -->
         {% if pair[1]['route'] %}
           {% for step in pair[1]['route'] %}
-            <b>{{ step['line_info']['line'] }}</b>
-            <b>{{ step['from']['name'] }}</b>
-            <b>{{ step['to']['name'] }}</b>
+            <b class=""> 
+              Line: {{step['line_info']['line']}} (Bound for {{step['line_info']['headsign']}}) 
+            </b>
+            <b class=""> 
+              Departure Station: {{step['from']['name']}} 
+            </b>
+            <b class="">
+              Departure Time: {{"{:02}".format(step['from']['est_dept_t'].hour)}}:{{"{:02}".format(step['from']['est_dept_t'].minute)}}
+            </b>
+            <b class=""> 
+              Arrival Station: {{step['to']['name']}}
+            </b>
+            <b class="">
+              Arrival Time: {{"{:02}".format(step['to']['est_arr_t'].hour)}}:{{"{:02}".format(step['to']['est_arr_t'].minute)}} 
+            </b>
           {% endfor %}
         {% else %}
           <b>ur walking buddy</b>
         {% endif %}
       </div>
-    </div>
+      <div class="timeline-middle">
+        <img src="https://www.svgrepo.com/show/86372/metro.svg" alt="Metro SVG" class="w-9 h-9">
+      </div>
+      <hr/>
+    </li>
+    <!-- POI timeline point -->
+    <li>
+      <hr/>
+      <div class="timeline-middle">
+        <img src="https://www.svgrepo.com/show/22690/building.svg" alt="Metro SVG" class="w-9 h-9">
+      </div>
+      <div class="timeline-end timeline-box flex flex-col gap-2">
+        <b class="capitalize">
+          Location: {{pair[0]['name']}}
+        </b>
+        <b class="">
+          Leave at: {{"{:02}".format(pair[0]['departure'].hour)}}:{{"{:02}".format(pair[0]['departure'].minute)}}
+        </b>
+      </div>
+      <hr/>
+    </li>
     {% endfor %}
+    <!-- end POI card -->
   </div>
+  <!-- end POI display container -->
 </div>
 {% endblock %}

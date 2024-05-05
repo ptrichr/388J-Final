@@ -8,6 +8,8 @@ import os
 import pprint
 import dateutil
     
+# TODO add error handling for when location can't be found, or route doesn't exist
+    
 class api(object):
     def __init__(self, api_key):
         self.session = requests.Session()
@@ -28,7 +30,7 @@ class api(object):
     
     # build in error handling for invalid locations
     def get_addr(self, location):
-        query = f'Closest WMATA Metro Station to {location}'
+        query = f'WMATA Metro near {location}'
         response = self.client.find_place(input=query, 
                                           input_type='textquery', 
                                           fields=['formatted_address','name','types'])

@@ -1,16 +1,19 @@
 {% extends 'base.html' %} 
 
 {% block content %}
-<div class="mx-auto flex flex-col gap-y-2">
+<div class="mx-auto flex flex-col gap-y-24">
     <div class="mx-auto"> 
         If you don't have an account, 
         <a class="text-blue-400 underline" href="{{url_for('users.register')}}">register here</a>
     </div>
-    <form class="mx-auto" method="POST" action="">
-        {{ form.csrf_token }}
-        {{ form.username(placeholder="username") }}
-        {{ form.password(placeholder="password") }}
-        {{ form.submit() }}
-    </form>
+    <div class="flex flex-col items-center gap-y-4">
+        <b class="text-center">Login:</b>
+        <form class="mx-auto flex flex-col gap-y-2" method="POST" action="">
+            {{ form.csrf_token }}
+            {{ form.username(class="input input-bordered w-full max-w-xs", placeholder="Username") }}
+            {{ form.password(class="input input-bordered w-full max-w-xs", placeholder="Password") }}
+            {{ form.submit(class="btn btn-ghost text-lg mx-auto") }}
+        </form>
+    </div>
 </div>
 {% endblock %}
