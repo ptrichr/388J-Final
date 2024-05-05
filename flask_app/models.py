@@ -21,7 +21,7 @@ class User(db.Document, UserMixin):
     
 class Trip(db.Document):
     # maybe add like a time spent field as a visual? idk
-    author = db.ReferenceField(User)
+    author = db.StringField(required=True)
     title = db.StringField(required=True)
     start_time = db.DateTimeField(required=True)
     pois = db.ListField(db.DictField(), default=[])

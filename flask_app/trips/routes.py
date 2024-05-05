@@ -43,7 +43,7 @@ def index():
             depart_cp = form.depart_cp.data
             
             # initialize in DB
-            trip = Trip(author=current_user._get_current_object(),
+            trip = Trip(author=current_user.userid,
                         title=title,
                         start_time=depart_cp,
                         pois=[],
@@ -62,23 +62,13 @@ def index():
 @login_required
 def plan_trip(trip_title):    
     form = POIForm()
-    trip = Trip.objects(title=trip_title, author=current_user).first()
-    if not trip.pois:
-        pois = list(trip.pois)
-    else:
-        pois = list()
+    trip = Trip.objects(title=trip_title, author=current_user.userid).first()
+    pois = list(trip.pois)
     # routes is a list of dictionaries that each contain a key "route" that is mapped
     # to a list of dictionaries (steps) that contain the keys line_info, from, to, which are 
     # dictionaries themselves
-    if not trip.routes:
-        routes = list(trip.routes)
-    else:
-        routes = list()
-        
-    if not pois and not routes: 
-        trip_info = zip(pois, routes)
-    else:
-        trip_info = list()
+    routes = list(trip.routes)
+    trip_info = zip(pois, routes)
     
     if request.method == "POST":
         
