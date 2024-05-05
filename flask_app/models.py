@@ -12,18 +12,17 @@ class User(db.Document, UserMixin):
                               max_length=40, 
                               unique=True, 
                               required=True)
-    # email = db.EmailField(unique=True, required=True)
+    userid = db.StringField(required=True)
     password = db.StringField(required=True)
-    # profile_pic = db.ImageField()
 
     # Returns unique string identifying our object
     def get_id(self):
         # TODO: implement
-        return self.username
+        return self.userid
     
 class Trip(db.Document):
     # maybe add like a time spent field as a visual? idk
-    author = db.ReferenceField(User)
+    author = db.StringField(required=True)
     title = db.StringField(required=True)
     start_time = db.DateTimeField(required=True)
     pois = db.ListField(db.DictField(), default=[])
