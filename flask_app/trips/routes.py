@@ -115,8 +115,8 @@ def plan_trip(trip_title):
     return render_template('trip_planning.html', form=form, info=trip_info)
 
 
-# review will handle the route calculation back to college park
+# remove points of interest
 @trips.route('/review/<trip_title>')
 @login_required
-def review_trip(trip_title):
+def remove_poi(trip_title):
     pass

@@ -9,6 +9,7 @@ import pprint
 import dateutil
     
 # TODO add error handling for when location can't be found, or route doesn't exist
+# ^^ i think this is done
     
 class api(object):
     def __init__(self, api_key):
@@ -40,6 +41,10 @@ class api(object):
             return f'Code:{code}, Error Message: {msg}'
         
         # print(response['candidates'][0]['formatted_address'])
+        
+        # if candidates is empty it couldn't find the location
+        if not response['candidates']:
+            return "Error: Could not find location, please try again."
         
         return response['candidates'][0]['formatted_address']
         
@@ -139,6 +144,11 @@ class api(object):
         # converts json to dictionary, filters for transit steps
         resp_as_dict = response.json()
         # pprint.pprint(resp_as_dict)
+        
+        # if the route is empty that just means you have to walk
+        if not resp_as_dict['routes']:
+            return resp_as_dict['routes']
+            
         filtered = filter((lambda x: x), resp_as_dict['routes'][0]['legs'][0]['steps'])
         
         # list of information about each step of transit route, list is in step order
