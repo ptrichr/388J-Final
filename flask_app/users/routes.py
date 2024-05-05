@@ -29,7 +29,7 @@ def register():
         userid = str(round(random() * 10))
         
         # if it's in the database already, generate another one
-        while not list(User.objects(userid = userid)):
+        while list(User.objects(userid = userid)):
             userid = str(round(random() * 10))
         
         user = User(username=form.username.data, 
