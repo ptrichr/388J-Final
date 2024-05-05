@@ -26,9 +26,9 @@ def create_app(test_config=None):
     app = Flask(__name__)
     
     # get config
-    # app.config.from_pyfile('config.py', silent=False) 
-    SECRET_KEY = os.getenv('SECRET_KEY')
-    MONGO_HOST = os.getenv('MONGO_HOST')
+    # app.config.from_pyfile('config.py', silent=False)
+    app.config['MONGO_HOST'] = os.getenv('MONGO_HOST')
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
      
     # init clients
     db.init_app(app)
