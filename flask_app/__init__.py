@@ -16,7 +16,7 @@ from .client import api
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
-client = api(os.getenv('GOOG_API_KEY'))
+client = api(os.environ.get('GOOG_API_KEY'))
 
 # blueprints
 from .users.routes import users
@@ -27,8 +27,8 @@ def create_app(test_config=None):
     
     # get config
     # app.config.from_pyfile('config.py', silent=False)
-    app.config['MONGO_HOST'] = os.getenv('MONGO_HOST')
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+    app.config['MONGODB_HOST'] = os.environ.get('MONGODB_HOST')
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
      
     # init clients
     db.init_app(app)
