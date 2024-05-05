@@ -56,12 +56,12 @@ def login():
         user = User.objects(username=form.username.data).first()
         
         if (user is not None and bcrypt.check_password_hash(user.password, form.password.data)):
-            login_user(user=user, force=True)
+            login_user(user=user)
             return redirect(url_for("trips.index"))
         else:
             flash(message="Authentication Error. Please Try Logging in Again")
     
-    return render_template('login.html', form=form)
+    return render_template('login.html', title="Login", form=form)
 
 @users.route('/logout')
 @login_required
@@ -75,7 +75,7 @@ def logout():
 @login_required
 def account():
     update_username_form = UpdateUsernameForm()
-    trips = list(Trip.objects(author=current_user.userid))
+    trips = list(Trip.objects(author=current_user))
     
     if request.method == "POST":        
         if update_username_form.submit_username.data and update_username_form.validate():

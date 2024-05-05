@@ -43,7 +43,7 @@ def index():
             depart_cp = form.depart_cp.data
             
             # initialize in DB
-            trip = Trip(author=current_user.userid,
+            trip = Trip(author=current_user._get_current_object(),
                         title=title,
                         start_time=depart_cp,
                         pois=[],
@@ -57,12 +57,11 @@ def index():
     return render_template('index.html', form=form)
 
 
-# TODO something is going wrong here with the time
 @trips.route("/plan/<trip_title>", methods=["GET", "POST"])
 @login_required
-def plan_trip(trip_title):    
+def plan_trip(trip_title):
     form = POIForm()
-    trip = Trip.objects(title=trip_title, author=current_user.userid).first()
+    trip = Trip.objects(title=trip_title, author=current_user._get_current_object()).first()
     pois = list(trip.pois)
     # routes is a list of dictionaries that each contain a key "route" that is mapped
     # to a list of dictionaries (steps) that contain the keys line_info, from, to, which are 
