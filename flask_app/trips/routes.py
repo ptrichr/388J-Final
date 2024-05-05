@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, request, redirect
+from flask import Blueprint, render_template, url_for, request, redirect, flash
 from flask_login import login_required, current_user
 from datetime import datetime
 import dateutil
@@ -89,25 +89,33 @@ def plan_trip(trip_title):
                 route_info = client.compute_route("University of Maryland, College Park", 
                                                   poi_to_add, 
                                                   depart_cp)
-                trip.pois.append({
-                                    'name': poi_to_add,
-                                    "departure": departure_datetime
-                                })
-                trip.routes.append({'route': route_info})
-                pprint(route_info)
-                trip.save()
+                
+                if route_info is None:
+                    flash(message="There was an error in route computation, please try again")
+                else:
+                    trip.pois.append({
+                                        'name': poi_to_add,
+                                        "departure": departure_datetime
+                                    })
+                    trip.routes.append({'route': route_info})
+                    pprint(route_info)
+                    trip.save()
             
             # logic for adding a new poi that is not the first
             else:
                 prev = pois[-1]
                 route_info = client.compute_route(prev['name'], poi_to_add, prev['departure'])
-                trip.pois.append({
-                                    'name': poi_to_add,
-                                    "departure": departure_datetime
-                                })
-                trip.routes.append({'route': route_info})
-                pprint(route_info)
-                trip.save()
+                
+                if route_info is None:
+                    flash(message="There was an error in route computation, please try again")
+                else:
+                    trip.pois.append({
+                                        'name': poi_to_add,
+                                        "departure": departure_datetime
+                                    })
+                    trip.routes.append({'route': route_info})
+                    pprint(route_info)
+                    trip.save()
             
             # reload
             return redirect(url_for("trips.plan_trip", trip_title=trip.title))

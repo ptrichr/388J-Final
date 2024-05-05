@@ -146,8 +146,8 @@ class api(object):
         # pprint.pprint(resp_as_dict)
         
         # if the route is empty that just means you have to walk
-        if not resp_as_dict['routes']:
-            return resp_as_dict['routes']
+        if not resp_as_dict:
+            return None
             
         filtered = filter((lambda x: x), resp_as_dict['routes'][0]['legs'][0]['steps'])
         
