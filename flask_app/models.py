@@ -17,7 +17,6 @@ class User(db.Document, UserMixin):
 
     # Returns unique string identifying our object
     def get_id(self):
-        # TODO: implement
         return self.userid
     
 class Trip(db.Document):

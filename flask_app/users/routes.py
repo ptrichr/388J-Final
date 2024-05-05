@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_required, login_user, logout_user
 from .. import bcrypt
-from random import random
+from random import choices
+from string import ascii_letters
 import dateutil
 
 # other imports
@@ -26,11 +27,11 @@ def register():
     # if form submission details are alright save in db
     if form.validate_on_submit():
         hashed = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        userid = str(round(random() * 10))
+        userid = ''.join(choices(ascii_letters(), 10))
         
         # if it's in the database already, generate another one
-        while list(User.objects(userid = userid)):
-            userid = str(round(random() * 10))
+        while list(User.objects(userid=userid)):
+            userid = ''.join(choices(ascii_letters(), 10))
         
         user = User(username=form.username.data, 
                     userid=userid,
@@ -56,8 +57,10 @@ def login():
         
         if (user is not None and bcrypt.check_password_hash(user.password, form.password.data)):
             login_user(user)
+            print("we logged in")
             return redirect(url_for("trips.index"))
         else:
+            print("login error")
             flash(message="Authentication Error. Please Try Logging in Again")
     
     return render_template('login.html', title="Login", form=form)
