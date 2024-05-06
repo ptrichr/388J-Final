@@ -16,7 +16,7 @@ class StartForm(FlaskForm):
     submit = SubmitField("Let's Go!")
     
     def validate_title(self, title):
-        if ' ' in title:
+        if ' ' in title.data:
             raise ValidationError("Title cannot contain spaces")
     
 
