@@ -62,13 +62,13 @@ def index():
 def plan_trip(trip_title):
     form = POIForm()
     trip = Trip.objects(title=trip_title, author=current_user._get_current_object()).first()
-    if trip is not None:
-        pois = list(trip.pois)
-        # routes is a list of dictionaries that each contain a key "route" that is mapped
-        # to a list of dictionaries (steps) that contain the keys line_info, from, to, which are 
-        # dictionaries themselves
-        routes = list(trip.routes)
-        trip_info = zip(pois, routes)
+    # if trip is not None:
+    pois = list(trip.pois)
+    # routes is a list of dictionaries that each contain a key "route" that is mapped
+    # to a list of dictionaries (steps) that contain the keys line_info, from, to, which are 
+    # dictionaries themselves
+    routes = list(trip.routes)
+    trip_info = zip(pois, routes)
     
     if request.method == "POST":
         
