@@ -9,24 +9,6 @@ from ..forms import POIForm, StartForm
 from ..models import Trip, User
 from .. import client
 
-# you need to register to create routes, so add flasklogin stuff and force loginrequired
-# ok so what routes do we need that are trips related?
-# TODO
-# 1. a landing page obviously, this should have the name form in the middle
-# 2. once we input a name we should go to one of two places - a login, or trip creation route
-#   i.   trip creation route - a route that asks for time, and points of interest
-#   ii.  this page should update when we add points of interest, it should be some visual list or smth
-#   iii. it should also render in a small box below the name of the POI the metro that should be taken to reach that
-#        location (so the metro route from A to B)
-#   iv. there should be a button on the bottom of the page that says finish and just redirects to the account page
-#       ^^ this can probably be html thing, since trip is saved after each poi added
-
-# ok maybe we should change the structure:
-# index page is just an input field that takes a location in DC and a time to leave
-# the first poi is that location in DC, and has a start time filled in by the arrival time at the station
-# then user has to fill in the end time, and from there we do the rest of the POIs
-
-
 trips = Blueprint("trips", __name__)
 
 @trips.route("/", methods=["GET", "POST"])

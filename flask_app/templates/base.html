@@ -7,12 +7,12 @@
 </head>
 <title>UMD(C)</title>
 
-<body class="p-0">
+<body class="p-0 font-mono">
     <div class="flex flex-col items-center w-screen h-screen">
         <!-- navbar -->
-        <div class="navbar bg-base-100 sticky top-0">
+        <div class="navbar bg-base-100 sticky top-0 w-full h-20 p-0">
             <div class="flex-1">
-                <a class="btn btn-ghost text-lg" href="{{url_for('trips.index')}}">
+                <a class="btn btn-ghost text-3xl ml-4" href="{{url_for('trips.index')}}">
                     UMD{C}
                 </a>
             </div>
@@ -26,12 +26,12 @@
                             Logout
                         </a>
                     </ul>
-                    <summary class="m-1 btn">
+                    <summary class="mr-4 btn">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </summary>
                 </details> 
             {% else %}
-                <a class="btn btn-ghost text-lg" href="{{url_for('users.login')}}">
+                <a class="mr-4 btn btn-ghost text-lg" href="{{url_for('users.login')}}">
                     Login
                 </a>
             {% endif %}
@@ -41,9 +41,6 @@
         <!-- content -->
         {% block content %}{% endblock %}
         <!-- end content -->
-
-        <!-- maybe add github and whatnot -->
-
     </div>
 </body>
 

@@ -43,24 +43,24 @@
         <!-- pair[1] is a dictionary -->
         {% if pair[1]['route'] %}
           {% for step in pair[1]['route'] %}
-            <b class=""> 
+            <b class="font-mono"> 
               Line: {{step['line_info']['line']}} (Bound for {{step['line_info']['headsign']}}) 
             </b>
-            <b class=""> 
+            <b class="font-mono"> 
               Departure Station: {{step['from']['name']}} 
             </b>
-            <b class="">
+            <b class="font-mono">
               Departure Time: {{"{:02}".format(step['from']['est_dept_t'].hour)}}:{{"{:02}".format(step['from']['est_dept_t'].minute)}}
             </b>
-            <b class=""> 
+            <b class="font-mono"> 
               Arrival Station: {{step['to']['name']}}
             </b>
-            <b class="">
+            <b class="font-mono">
               Arrival Time: {{"{:02}".format(step['to']['est_arr_t'].hour)}}:{{"{:02}".format(step['to']['est_arr_t'].minute)}} 
             </b>
           {% endfor %}
         {% else %}
-          <b>ur walking buddy</b>
+          <b class="font-mono">ur walking buddy</b>
         {% endif %}
       </div>
       <div class="timeline-middle">
@@ -75,10 +75,10 @@
         <img src="https://www.svgrepo.com/show/22690/building.svg" alt="Metro SVG" class="w-9 h-9">
       </div>
       <div class="timeline-end timeline-box flex flex-col gap-2">
-        <b class="capitalize">
+        <b class="capitalize font-mono">
           Location: {{pair[0]['name']}}
         </b>
-        <b class="">
+        <b class="font-mono">
           Leave at: {{"{:02}".format(pair[0]['departure'].hour)}}:{{"{:02}".format(pair[0]['departure'].minute)}}
         </b>
       </div>

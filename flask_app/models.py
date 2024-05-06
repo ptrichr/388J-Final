@@ -2,7 +2,6 @@ from flask_login import UserMixin
 from . import db, login_manager
 import dateutil
 
-# maybe change later if issues arise
 @login_manager.user_loader
 def load_user(user_id):
     return User.objects(userid=user_id).first()
@@ -20,7 +19,6 @@ class User(db.Document, UserMixin):
         return self.userid
     
 class Trip(db.Document):
-    # maybe add like a time spent field as a visual? idk
     author = db.ReferenceField(User)
     title = db.StringField(required=True)
     start_time = db.DateTimeField(required=True)

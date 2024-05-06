@@ -9,11 +9,6 @@ import dateutil
 from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm
 from ..models import User, Trip
 
-# TODO
-# user route stuff (look at p4)
-# 1. need user detail route similar to p4, cept the reviews r replaced by trips
-#   i. there should be a button to allow users to retroactively edit trips
-
 users = Blueprint("users", __name__)
 
 @users.route("/register", methods=["GET", "POST"])
@@ -69,8 +64,6 @@ def logout():
     logout_user()
     return redirect(url_for("trips.index"))
 
-# now displays trips as well
-# idk if this url actually works
 @users.route('/account', methods=["GET", "POST"])
 @login_required
 def account():
@@ -79,7 +72,6 @@ def account():
     
     if request.method == "POST":        
         if update_username_form.submit_username.data and update_username_form.validate():
-            # TODO: handle update username form submit
             current_user.modify(username=update_username_form.username.data)
             
         if not update_username_form.errors:

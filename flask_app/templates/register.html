@@ -2,12 +2,16 @@
 
 {% block content %}
 <div class="mx-auto flex flex-col gap-y-24">
-    <div class="mx-auto">
+    <!-- login link -->
+    <div class="mx-auto text-lg">
         If you already have an account, 
-        <a class="text-blue-400 underline" href="{{url_for('users.login')}}">login here</a>
+        <a class="link link-accent" href="{{url_for('users.login')}}">login here</a>
     </div>
+    <!-- end login link -->
+
+    <!-- form -->
     <div class="flex flex-col items-center gap-y-4">
-        <b class="text-center">Register:</b>
+        <b class="text-center text-lg">Register:</b>
         <form class="mx-auto flex flex-col gap-y-2" method="POST" action="">
             {{ form.csrf_token }}
             {{ form.username(class="input input-bordered w-full max-w-xs", placeholder="username") }}
@@ -23,5 +27,6 @@
             {% endif %}
         </form>
     </div>
+    <!-- end form -->
 </div>
 {% endblock %}

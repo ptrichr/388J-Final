@@ -3,13 +3,7 @@ import googlemaps
 import re
 import datetime
 import calendar
-import dotenv
-import os
-import pprint
-import dateutil
     
-# TODO add error handling for when location can't be found, or route doesn't exist
-# ^^ i think this is done
     
 class api(object):
     def __init__(self, api_key):
@@ -24,9 +18,11 @@ class api(object):
         }
     
     """
-    uses google maps python api to find address data for a place input as a string,
-    returns the address from the response, if an error occurs, prints code and message
-    associated with the error type
+    desc: uses google maps python api to find address data for a place input as a string,
+        returns the address from the response, if an error occurs, prints code and message
+        associated with the error type
+    params:
+        location: location to search around <string>
     """
     
     # build in error handling for invalid locations
@@ -39,9 +35,7 @@ class api(object):
             code = response["error"]["code"]
             msg = response["error"]["message"]
             return f'Code:{code}, Error Message: {msg}'
-        
-        # print(response['candidates'][0]['formatted_address'])
-        
+                
         # if candidates is empty it couldn't find the location
         if not response['candidates']:
             return "Error: Could not find location, please try again."
@@ -58,7 +52,6 @@ class api(object):
         end: desired destination <string>
         departure_t: time to depart <datetime.datetime>
     """
-    # TODO mongo can't store the times that this dictionary returns lol need to return datetime instead
     def compute_route(self, start, end, departure_dt):
         
         # get addresses of start and end
@@ -116,7 +109,6 @@ class api(object):
         UTC = rectify_time(query_yr, query_mnt, query_day, query_hr, query_min)
             
         zulu_timestr = f'{UTC.year:04}-{UTC.month:02}-{UTC.day:02}T{UTC.hour:02}:{UTC.minute:02}:00Z'
-        # print(zulu_timestr)
         
         # extra parameters for query
         data = {
@@ -143,7 +135,6 @@ class api(object):
     
         # converts json to dictionary, filters for transit steps
         resp_as_dict = response.json()
-        # pprint.pprint(resp_as_dict)
         
         # if the route is empty that just means you have to walk
         if not resp_as_dict:
@@ -188,40 +179,3 @@ class api(object):
         
         # returns a list of the filtered non-empty transit steps with necessary information
         return route_info
-
-
-# testing route computation stuff
-# dotenv.load_dotenv()
-# client = api(os.getenv('GOOG_API_KEY'))
-# pprint.pprint(client.compute_route('Reston', 'University of Maryland, College Park', datetime.datetime.now()))
-# time_pattern = re.compile("([0-9]{1,2}):([0-9]{2}).*(AM|PM).*")
-
-# matched_arr = re.fullmatch(time_pattern, '11:59\u202f''PM')
-
-# arr_hr = int(matched_arr.group(1))
-# arr_min = int(matched_arr.group(2))
-# arr_meridiem = matched_arr.group(3)
-
-# if arr_min + 5 >= 60:
-#     arr_min = arr_min - 60 + 5
-#     arr_hr += 1
-    
-# if arr_meridiem == "PM":
-#     if arr_hr + 12 >= 24:
-#         arr_hr = arr_hr + 12 - 24
-#     else:
-#         arr_hr += 12
-    
-# print(f"{arr_hr:02}:{arr_min:02}")
-
-# takes time as HH:MM
-
-# local json processing stuff
-# with open(r"dump.json", "w", encoding="utf-8") as f:
-#     json.dump(resp.json(), f, ensure_ascii=False, indent=4)
-# with open(r"dump.json", "r") as f:
-#     resp = json.load(f)
-    
-# notes about testing:
-# need to convert local time to UTC for zulu fmt
-# for some reason the departure time calculation has a random 30 minute buffer built in??

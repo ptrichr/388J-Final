@@ -25,8 +25,6 @@ from .trips.routes import trips
 def create_app(test_config=None):
     app = Flask(__name__)
     
-    # get config
-    # app.config.from_pyfile('config.py', silent=False)
     app.config['MONGODB_HOST'] = os.environ.get('MONGODB_HOST')
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
      
