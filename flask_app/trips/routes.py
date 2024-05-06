@@ -41,7 +41,6 @@ def index():
             # just get the start location and make that the placeholder title
             title = form.title.data
             
-            # if list(filter(lambda x: x.title == title, list(Trip.objects(author=current_user._get_current_object())))):
             if list(Trip.objects(title=title, author=current_user._get_current_object())):
                 flash(message="Cannot have duplicate trip titles")
             else:
@@ -67,13 +66,16 @@ def index():
 def plan_trip(trip_title):
     form = POIForm()
     trip = Trip.objects(title=trip_title, author=current_user._get_current_object()).first()
-        
-    pois = list(trip.pois)
-    # routes is a list of dictionaries that each contain a key "route" that is mapped
-    # to a list of dictionaries (steps) that contain the keys line_info, from, to, which are 
-    # dictionaries themselves
-    routes = list(trip.routes)
-    trip_info = zip(pois, routes)
+    
+    if trip is not None:
+        pois = list(trip.pois)
+        # routes is a list of dictionaries that each contain a key "route" that is mapped
+        # to a list of dictionaries (steps) that contain the keys line_info, from, to, which are 
+        # dictionaries themselves
+        routes = list(trip.routes)
+        trip_info = zip(pois, routes)
+    else:
+        trip_info = []
     
     if request.method == "POST":
         
@@ -84,16 +86,16 @@ def plan_trip(trip_title):
             
             # formatting time as datetime object
             departure_datetime = datetime(depart_cp.year,
-                                        depart_cp.month,
-                                        depart_cp.day,
-                                        leave_poi_t.hour,
-                                        leave_poi_t.minute)
+                                          depart_cp.month,
+                                          depart_cp.day,
+                                          leave_poi_t.hour,
+                                          leave_poi_t.minute)
             
             # logic for if we need to compute route from college park (adding first POI)
             if not pois:
                 route_info = client.compute_route("University of Maryland, College Park", 
-                                                poi_to_add, 
-                                                depart_cp)
+                                                  poi_to_add, 
+                                                  depart_cp)
                 
                 if route_info is None:
                     flash(message="There was an error in route computation, please try again")
@@ -103,7 +105,6 @@ def plan_trip(trip_title):
                                         "departure": departure_datetime
                                     })
                     trip.routes.append({'route': route_info})
-                    pprint(route_info)
                     trip.save()
             
             # logic for adding a new poi that is not the first
@@ -119,7 +120,6 @@ def plan_trip(trip_title):
                                         "departure": departure_datetime
                                     })
                     trip.routes.append({'route': route_info})
-                    pprint(route_info)
                     trip.save()
             
             # reload
