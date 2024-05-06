@@ -40,18 +40,22 @@ def index():
         if form.validate_on_submit():          
             # just get the start location and make that the placeholder title
             title = form.title.data
-            depart_cp = form.depart_cp.data
             
-            # initialize in DB
-            trip = Trip(author=current_user._get_current_object(),
-                        title=title,
-                        start_time=depart_cp,
-                        pois=[],
-                        routes=[])
-            trip.save()
-                        
-            # redirect to init route
-            return redirect(url_for("trips.plan_trip", trip_title=title))
+            if list(filter(lambda x: x.title == title, list(Trip.objects(author=current_user._get_current_object())))):
+                flash(message="Cannot have duplicate trip titles")
+            else:
+                depart_cp = form.depart_cp.data
+                
+                # initialize in DB
+                trip = Trip(author=current_user._get_current_object(),
+                            title=title,
+                            start_time=depart_cp,
+                            pois=[],
+                            routes=[])
+                trip.save()
+                            
+                # redirect to init route
+                return redirect(url_for("trips.plan_trip", trip_title=title))
         
     # maybe add title field
     return render_template('index.html', form=form)
@@ -61,9 +65,10 @@ def index():
 @login_required
 def plan_trip(trip_title):
     form = POIForm()
-    trip = Trip.objects(title=trip_title, author=current_user._get_current_object()).first()
+    trip = list(filter(lambda x: x.title == trip_title, list(Trip.objects(author=current_user._get_current_object()))))
     
-    if trip is not None:
+    if trip:
+        trip = trip[0]
         pois = list(trip.pois)
         # routes is a list of dictionaries that each contain a key "route" that is mapped
         # to a list of dictionaries (steps) that contain the keys line_info, from, to, which are 
