@@ -67,6 +67,8 @@ def plan_trip(trip_title):
     form = POIForm()
     trip = list(filter(lambda x: x.title == trip_title, list(Trip.objects(author=current_user._get_current_object()))))
     
+    pprint(trip)
+    
     if trip:
         trip = trip[0]
         pois = list(trip.pois)
