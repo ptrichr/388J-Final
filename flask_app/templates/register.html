@@ -14,6 +14,13 @@
             {{ form.password(class="input input-bordered w-full max-w-xs", placeholder="password") }}
             {{ form.confirm_password(class="input input-bordered w-full max-w-xs", placeholder="confirm password") }}
             {{ form.submit(class="btn btn-ghost text-lg mx-auto") }}
+            {% if form.username.errors %}
+                {% for error in form.username.errors %}
+                    <div>
+                        <span class="text-red-600">{{ error }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </form>
     </div>
 </div>

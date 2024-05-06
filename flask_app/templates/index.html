@@ -14,7 +14,7 @@
         {% endwith %}
         <form class="mx-auto gap-y-2 flex flex-col" method="POST" action="/">
             {{ form.csrf_token }}
-            {{ form.title(class="input input-bordered w-full max-w-xs", placeholder="Trip Name") }}
+            {{ form.title(class="input input-bordered w-full max-w-xs", placeholder="Trip Name (cannot contain spaces)") }}
             {{ form.depart_cp(class="input input-bordered w-full max-w-xs", placeholder="Departure Time") }}
             {{ form.submit(class="btn btn-ghost text-lg mx-auto") }}
         </form>

@@ -14,6 +14,11 @@ class StartForm(FlaskForm):
                                    format="%Y-%m-%dT%H:%M", 
                                    validators=[InputRequired()])
     submit = SubmitField("Let's Go!")
+    
+    def validate_title(self, title):
+        if ' ' in title:
+            raise ValidationError("Title cannot contain spaces")
+    
 
 # for creating routes/adding points of interest
 # the time form from WTForms components returns a time in datetime.time standard:
@@ -41,11 +46,6 @@ class RegistrationForm(FlaskForm):
         user = User.objects(username=username.data).first()
         if user is not None:
             raise ValidationError("This username is taken. Pick another username")
-
-    # def validate_email(self, email):
-    #     user = User.objects(email=email.data).first()
-    #     if user is not None:
-    #         raise ValidationError("Email is taken")
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired(), Length(min=1, max=40)])
